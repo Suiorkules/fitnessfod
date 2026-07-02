@@ -2,7 +2,92 @@
    🎮 SYSTEM UI STYLE (REALITY QUEST CONCEPT)
    ========================================================================== */
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@500;700&display=swap');
+/* ==========================================================================
+   📱 АДАПТИВ ДЛЯ МОБИЛЬНЫХ УСТРОЙСТВ (ПОД СМАРТФОНЫ)
+   ========================================================================== */
+@media (max-width: 600px) {
+    /* Уменьшаем отступы вокруг сайта */
+    header {
+        padding: 2rem 1rem 1.5rem 1rem;
+    }
 
+    header h1 {
+        font-size: 1.8rem; /* Чуть компактнее заголовок */
+    }
+
+    header p {
+        font-size: 1rem;
+        letter-spacing: 1.5px;
+    }
+
+    .container {
+        margin: -1rem auto 2rem auto;
+        padding: 0 0.8rem;
+    }
+
+    .card {
+        padding: 1.2rem; /* Меньше внутренние отступы, больше места для контента */
+        margin-bottom: 1.2rem;
+    }
+
+    .card h2 {
+        font-size: 1.1rem;
+        margin-bottom: 1rem;
+    }
+
+    /* Делаем все инпуты и кнопки на весь экран в один столбик */
+    .input-group {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    select, input[type="number"], input[type="text"], button {
+        width: 100%; /* Занимают всю ширину */
+        box-sizing: border-box;
+        min-width: 100%;
+        padding: 14px; /* Крупнее под нажатие пальцем */
+        font-size: 1.1rem;
+    }
+
+    /* Кастомная панель создания продукта тоже в столбик */
+    .my-product-form {
+        padding: 10px;
+    }
+
+    /* Статы БЖУ: вместо одной строки делаем красивую плитку 2х2 или вертикально */
+    .bzhu-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr; /* Две колонки */
+        gap: 8px;
+        font-size: 0.8rem;
+    }
+
+    .bzhu-container span {
+        text-align: center;
+        padding: 8px 4px;
+    }
+
+    /* Результаты калькулятора (ИМТ) */
+    #profile-results p {
+        font-size: 0.95rem;
+        line-height: 1.4;
+    }
+
+    /* Свиток истории квестов на телефоне */
+    .history-item {
+        flex-direction: column; /* Элементы даты и калорий друг под другом */
+        align-items: flex-start;
+        gap: 6px;
+        font-size: 0.95rem;
+        padding: 10px;
+    }
+    
+    .history-item span:last-child {
+        align-self: flex-end; /* Воду сдвинем в правый нижний угол плашки */
+        font-size: 0.85rem;
+        color: var(--neon-blue);
+    }
+}
 :root {
     /* Неоновые цвета Системы */
     --system-bg: #0a0b10;
