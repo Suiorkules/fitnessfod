@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FitLife Food - Твой дневник ПП и гидратации</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <h1>🍏 FitLife Food</h1>
+        <p>Только правильное питание, БЖУ и баланс воды</p>
+    </header>
+
+    <main class="container">
+        
+        <section class="card profile-section">
+            <h2>📊 Расчет личной нормы</h2>
+            <div class="calculator-grid">
+                <div class="input-group">
+                    <label>Пол: 
+                        <select id="gender">
+                            <option value="male">Мужской</option>
+                            <option value="female">Женский</option>
+                        </select>
+                    </label>
+                    <input type="number" id="age" placeholder="Возраст (лет)" min="1" max="100">
+                    <input type="number" id="height" placeholder="Рост (см)" min="50" max="250">
+                    <input type="number" id="weight" placeholder="Вес (кг)" min="10" max="300">
+                </div>
+                <div class="input-group">
+                    <label>Активность:
+                        <select id="activity">
+                            <option value="1.2">Минимальная (сидячий образ жизни)</option>
+                            <option value="1.375">Слабая (1-3 тренировки в неделю)</option>
+                            <option value="1.55">Средняя (3-5 тренировок в неделю)</option>
+                            <option value="1.725">Высокая (тяжелые нагрузки каждый день)</option>
+                        </select>
+                    </label>
+                    <button id="calc-profile-btn">Рассчитать норму</button>
+                </div>
+            </div>
+            
+            <div id="profile-results" class="result-box hidden">
+                <p>Твой ИМТ: <span id="bmi-val">0</span> (<span id="bmi-status">-</span>)</p>
+                <p>🔥 Норма калорий для поддержания веса: <span id="bmr-val">0</span> ккал</p>
+                <p>📉 Для похудения (дефицит 15%): <span id="loss-val">0</span> ккал</p>
+            </div>
+        </section>
+
+        <section class="card food-section">
+            <h2>🥑 Дневник питания и БЖУ</h2>
+
+            <div class="input-group my-product-form">
+                <input type="text" id="custom-name" placeholder="Название (например, Творог)">
+                <input type="number" id="custom-cal" placeholder="ккал на 100г">
+                <button id="add-custom-product-btn" class="btn-secondary">➕ Создать продукт</button>
+            </div>
+
+            <div class="input-group">
+                <select id="product-select">
+                    <option value="default" data-cal="0" data-p="0" data-f="0" data-c="0">Выберите продукт...</option>
+                    <option value="chicken" data-cal="165" data-p="31" data-f="3.6" data-c="0">Куриное филе</option>
+                    <option value="rice" data-cal="130" data-p="2.7" data-f="0.3" data-c="28">Рис отварной</option>
+                    <option value="egg" data-cal="155" data-p="13" data-f="11" data-c="1.1">Яйцо вареное</option>
+                    <option value="apple" data-cal="52" data-p="0.3" data-f="0.2" data-c="14">Яблоко</option>
+                    <option value="cucumber" data-cal="15" data-p="0.8" data-f="0.1" data-c="2.8">Огурец</option>
+                </select>
+                <input type="number" id="product-weight" placeholder="Вес в граммах" min="0">
+                <button id="add-food-btn">Добавить в дневник</button>
+            </div>
+
+            <div class="result-box">
+                <p>🔥 Калории: <span id="total-calories">0</span> / <span id="target-calories-display">0</span> ккал</p>
+                <div class="progress-container">
+                    <div id="calorie-progress-bar" class="progress-bar"></div>
+                </div>
+                <div class="bzhu-container">
+                    <span>🥩 Б: <span id="total-p">0</span>г / <span id="target-p">0</span>г</span> | 
+                    <span>🥑 Ж: <span id="total-f">0</span>г / <span id="target-f">0</span>г</span> | 
+                    <span>🌾 У: <span id="total-c">0</span>г / <span id="target-c">0</span>г</span>
+                </div>
+            </div>
+
+            <hr style="border: 0; border-top: 1px solid #ddd; margin: 20px 0;">
+            <button id="reset-day-btn" style="background-color: #e53935; color: white; width: 100%; padding: 12px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold;">☀️ Начать новый день (Сохранить и сбросить)</button>
+        </section>
+
+        <section class="card water-section">
+            <h2>💧 Баланс воды</h2>
+            <p>Цель: 2000 мл</p>
+            <div class="input-group">
+                <button id="add-water-btn">+250 мл</button>
+                <button id="reset-water-btn" style="background-color: #757575;">Сброс</button>
+            </div>
+            <p>Выпито: <span id="water-count">0</span> мл</p>
+        </section>
+
+        <section class="card history-section">
+            <h2>📅 История твоего прогресса</h2>
+            <div id="history-list">
+                <p class="empty-history">История пока пуста. Начни новый день, чтобы сохранить первые данные!</p>
+            </div>
+            <button id="clear-history-btn" style="background-color: #757575; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer;">Очистить всю историю</button>
+        </section>
+
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>

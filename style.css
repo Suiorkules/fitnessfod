@@ -1,0 +1,283 @@
+/* ==========================================================================
+   🎮 SYSTEM UI STYLE (REALITY QUEST CONCEPT)
+   ========================================================================== */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@500;700&display=swap');
+
+:root {
+    /* Неоновые цвета Системы */
+    --system-bg: #0a0b10;
+    --card-bg: rgba(16, 18, 27, 0.85);
+    --neon-green: #00ff66;
+    --neon-purple: #bd00ff;
+    --neon-blue: #00e5ff;
+    --neon-text-shadow: 0 0 10px rgba(0, 255, 102, 0.5);
+    
+    --text-main: #ffffff;
+    --text-muted: #8fa0b5;
+    --border-system: 1px solid rgba(189, 0, 255, 0.3);
+    
+    --radius-box: 4px; /* Острые, агрессивные углы как в играх */
+    --transition-fast: all 0.2s ease;
+}
+
+body {
+    font-family: 'Rajdhani', sans-serif;
+    background-color: var(--system-bg);
+    /* Фоновая сетка киберпанка */
+    background-image: 
+        linear-gradient(rgba(189, 0, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(189, 0, 255, 0.03) 1px, transparent 1px);
+    background-size: 20px 20px;
+    color: var(--text-main);
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+}
+
+/* Эпичный заголовок Системы */
+header {
+    background: linear-gradient(180deg, #120a24 0%, transparent 100%);
+    text-align: center;
+    padding: 3rem 1rem 2rem 1rem;
+    border-bottom: 2px solid var(--neon-purple);
+    box-shadow: 0 0 20px rgba(189, 0, 255, 0.2);
+}
+
+header h1 {
+    font-family: 'Orbitron', sans-serif;
+    margin: 0;
+    font-size: 2.8rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    color: #fff;
+    text-shadow: 0 0 15px var(--neon-purple), 0 0 30px var(--neon-purple);
+    letter-spacing: 2px;
+}
+
+header p {
+    font-family: 'Rajdhani', sans-serif;
+    margin: 0.5rem 0 0 0;
+    color: var(--neon-blue);
+    font-size: 1.3rem;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    text-shadow: 0 0 8px rgba(0, 229, 255, 0.5);
+}
+
+.container {
+    max-width: 700px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+/* ==========================================================================
+   ⚡️ ИГРОВЫЕ КАРТОЧКИ (КВЕСТ-ПАНЕЛИ)
+   ========================================================================== */
+.card {
+    background: var(--card-bg);
+    border: var(--border-system);
+    border-radius: var(--radius-box);
+    padding: 1.8rem;
+    margin-bottom: 2rem;
+    backdrop-filter: blur(10px);
+    box-shadow: inset 0 0 15px rgba(189, 0, 255, 0.1), 0 5px 15px rgba(0,0,0,0.5);
+    position: relative;
+    transition: var(--transition-fast);
+}
+
+/* Эффект свечения рамки при наведении */
+.card:hover {
+    border-color: var(--neon-blue);
+    box-shadow: inset 0 0 20px rgba(0, 229, 255, 0.15), 0 0 25px rgba(0, 229, 255, 0.2);
+}
+
+/* Заголовки как названия квестов */
+.card h2 {
+    font-family: 'Orbitron', sans-serif;
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    font-size: 1.3rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--neon-blue);
+    letter-spacing: 1px;
+    border-bottom: 1px solid rgba(0, 229, 255, 0.2);
+    padding-bottom: 8px;
+}
+
+/* ==========================================================================
+   🎮 КНОПКИ И ИНПУТЫ (МЕНЮ ИГРОКА)
+   ========================================================================== */
+.input-group {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+}
+
+select, input[type="number"], input[type="text"] {
+    background: #141622;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #fff;
+    padding: 12px;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 1.1rem;
+    border-radius: var(--radius-box);
+    outline: none;
+    transition: var(--transition-fast);
+}
+
+select:focus, input:focus {
+    border-color: var(--neon-purple);
+    box-shadow: 0 0 10px rgba(189, 0, 255, 0.4);
+}
+
+/* Кнопки-Квесты */
+button {
+    background: linear-gradient(135deg, #1b0a2a 0%, #3d0066 100%);
+    border: 1px solid var(--neon-purple);
+    color: #fff;
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 700;
+    text-transform: uppercase;
+    padding: 12px 20px;
+    cursor: pointer;
+    border-radius: var(--radius-box);
+    transition: var(--transition-fast);
+    letter-spacing: 1px;
+}
+
+button:hover {
+    background: var(--neon-purple);
+    color: #000;
+    box-shadow: 0 0 15px var(--neon-purple);
+    font-weight: 900;
+}
+
+/* Особая кнопка для добавления кастомных предметов */
+.btn-secondary {
+    background: linear-gradient(135deg, #051c14 0%, #004d26 100%);
+    border-color: var(--neon-green);
+}
+.btn-secondary:hover {
+    background: var(--neon-green);
+    box-shadow: 0 0 15px var(--neon-green);
+}
+
+/* Кнопка сброса (Красная угроза) */
+#reset-day-btn {
+    background: linear-gradient(135deg, #2a0505 0%, #660000 100%) !important;
+    border-color: #ff0055 !important;
+    color: #fff !important;
+    font-size: 1.1rem;
+}
+#reset-day-btn:hover {
+    background: #ff0055 !important;
+    color: #fff !important;
+    box-shadow: 0 0 20px #ff0055 !important;
+}
+
+/* Кастомная форма предметов */
+.my-product-form {
+    background: rgba(189, 0, 255, 0.05);
+    border-left: 3px solid var(--neon-purple);
+}
+
+/* ==========================================================================
+   ⚡️ ИНДИКАТОРЫ ХАРАКТЕРИСТИК (ПРОГРЕСС-БАРЫ)
+   ========================================================================== */
+.result-box {
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 1.2rem;
+    border-radius: var(--radius-box);
+}
+
+/* Шкала Энергии / Калорий */
+.progress-container {
+    width: 100%;
+    background-color: #1a1d29;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    height: 16px;
+    margin: 12px 0;
+    border-radius: var(--radius-box);
+}
+
+.progress-bar {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #00bfff, var(--neon-green));
+    box-shadow: 0 0 10px var(--neon-green);
+    transition: width 0.4s cubic-bezier(0.1, 0.8, 0.1, 1);
+}
+
+/* Перебор лимита — критическое состояние */
+.progress-bar.overlimit {
+    background: linear-gradient(90deg, #ff0055, #ffcc00);
+    box-shadow: 0 0 15px #ff0055;
+}
+
+/* Панель БЖУ как Статы Персонажа */
+.bzhu-container {
+    display: flex;
+    justify-content: space-between;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 12px;
+    margin-top: 12px;
+}
+
+.bzhu-container span {
+    background: #11131c;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 6px 12px;
+}
+
+/* Специальные цвета для статов */
+#total-p, #target-p { color: #ff5555; }
+#total-f, #target-f { color: #ffcc00; }
+#total-c, #target-c { color: var(--neon-blue); }
+
+/* ==========================================================================
+   🔮 ВОДНЫЙ БАЛАНС И ЛОГ КВЕСТОВ (ИСТОРИЯ)
+   ========================================================================== */
+.water-section button {
+    background: linear-gradient(135deg, #051c2c 0%, #005c99 100%);
+    border-color: var(--neon-blue);
+}
+.water-section button:hover {
+    background: var(--neon-blue);
+    box-shadow: 0 0 15px var(--neon-blue);
+}
+
+#profile-results {
+    background: rgba(0, 255, 102, 0.05);
+    border-left: 4px solid var(--neon-green);
+    color: #fff;
+    text-shadow: 0 0 5px rgba(0, 255, 102, 0.3);
+}
+
+/* Свиток Выполненных Квестов (История) */
+.history-item {
+    display: flex;
+    justify-content: space-between;
+    background: #121420;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-left: 4px solid var(--neon-purple);
+    padding: 12px 16px;
+    margin: 10px 0;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 1.1rem;
+}
+
+.history-item b {
+    color: var(--neon-blue);
+}
+
+.empty-history {
+    color: var(--text-muted);
+    text-align: center;
+    font-style: italic;
+}
