@@ -49,7 +49,7 @@
             </div>
         </section>
 
-        <section class="card food-section">
+      <section class="card food-section">
             <h2>🥑 Дневник питания и БЖУ</h2>
 
             <div class="input-group my-product-form">
@@ -66,8 +66,9 @@
                     <option value="egg" data-cal="155" data-p="13" data-f="11" data-c="1.1">Яйцо вареное</option>
                     <option value="apple" data-cal="52" data-p="0.3" data-f="0.2" data-c="14">Яблоко</option>
                     <option value="cucumber" data-cal="15" data-p="0.8" data-f="0.1" data-c="2.8">Огурец</option>
+                    <option value="banana" data-cal="95" data-p="1.5" data-f="0.2" data-c="21.8">Банан</option>
                 </select>
-                <input type="number" id="product-weight" placeholder="Вес в граммах" min="0">
+                <input type="number" id="product-weight" placeholder="Вес в граммах" min="1">
                 <button id="add-food-btn">Добавить в дневник</button>
             </div>
 
@@ -83,9 +84,15 @@
                 </div>
             </div>
 
-            <hr style="border: 0; border-top: 1px solid #ddd; margin: 20px 0;">
+            <div style="margin-top: 15px;">
+                <h3 style="font-family: 'Orbitron', sans-serif; font-size: 1rem; color: var(--neon-blue); text-transform: uppercase;">📋 Съедено сегодня:</h3>
+                <div id="today-food-list">
+                    </div>
+            </div>
+
+            <hr style="border: 0; border-top: 1px solid rgba(255,255,255,0.1); margin: 20px 0;">
             <button id="reset-day-btn" style="background-color: #e53935; color: white; width: 100%; padding: 12px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold;">☀️ Начать новый день (Сохранить и сбросить)</button>
-        </section>
+        </section>>
 
         <section class="card water-section">
             <h2>💧 Баланс воды</h2>
