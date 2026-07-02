@@ -8,6 +8,8 @@ let totalC = parseFloat(localStorage.getItem('c')) || 0;
 let totalWater = parseInt(localStorage.getItem('water')) || 0;
 let targetCalories = parseInt(localStorage.getItem('targetCalories')) || 0;
 
+// Массив съеденного ЗА СЕГОДНЯ и архив ИСТОРИИ по дням
+let todayFoods = JSON.parse(localStorage.getItem('todayFoods')) || [];
 let historyData = JSON.parse(localStorage.getItem('fitHistory')) || [];
 
 if (document.getElementById('water-count')) {
@@ -17,6 +19,30 @@ if (document.getElementById('water-count')) {
 // ==========================================
 // 2. ФУНКЦИИ ИНТЕРФЕЙСА (Отрисовка)
 // ==========================================
+
+// Отрисовка списка продуктов, съеденных СЕГОДНЯ
+function renderTodayFoods() {
+    const todayList = document.getElementById('today-food-list');
+    if (!todayList) return;
+
+    if (todayFoods.length === 0) {
+        todayList.innerHTML = '<p style="color: var(--text-muted); font-style: italic; font-size: 0.9rem;">Вы пока ничего не добавили за сегодня.</p>';
+        return;
+    }
+
+    todayList.innerHTML = '';
+    todayFoods.forEach(item => {
+        const div = document.createElement('div');
+        div.style.cssText = "background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); padding: 8px 12px; margin: 5px 0; font-size: 0.95rem; display: flex; justify-content: space-between;";
+        div.innerHTML = `
+            <span>🔹 <b>${item.name}</b> (${item.weight}г)</span>
+            <span style="color: var(--neon-green)">+${item.cal} ккал</span>
+        `;
+        todayList.appendChild(div);
+    });
+}
+
+// Отрисовка ГЛОБАЛЬНОЙ ИСТОРИИ (Архив прошлых дней)
 function renderHistory() {
     const historyList = document.getElementById('history-list');
     if (!historyList) return;
@@ -30,15 +56,30 @@ function renderHistory() {
     historyData.slice().reverse().forEach(item => {
         const div = document.createElement('div');
         div.className = 'history-item';
+        
+        // Формируем строчку со списком съеденного в этот день для архива
+        let foodDetails = "";
+        if (item.foods && item.foods.length > 0) {
+            foodDetails = `<div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 5px; padding-left: 10px; border-left: 1px solid rgba(255,255,255,0.1)">
+                ${item.foods.map(f => `${f.name} (${f.weight}г)`).join(', ')}
+            </div>`;
+        }
+
         div.innerHTML = `
-            <span>📅 <b>${item.date}</b></span>
-            <span>🔥 ${item.calories} / ${item.target} ккал</span>
-            <span>💧 Вода: ${item.water} мл</span>
+            <div style="width: 100%;">
+                <div style="display: flex; justify-content: space-between; width: 100%;">
+                    <span>📅 <b>${item.date}</b></span>
+                    <span>🔥 ${item.calories} / ${item.target} ккал</span>
+                    <span>💧 Вода: ${item.water} мл</span>
+                </div>
+                ${foodDetails}
+            </div>
         `;
         historyList.appendChild(div);
     });
 }
 
+// Обновление главных шкал и статов Системы
 function updateUI() {
     if (document.getElementById('total-calories')) document.getElementById('total-calories').innerText = totalCalories;
     if (document.getElementById('total-p')) document.getElementById('total-p').innerText = totalP.toFixed(1);
@@ -67,11 +108,12 @@ function updateUI() {
         if (progressBar) progressBar.style.width = '0%';
     }
 
+    renderTodayFoods();
     renderHistory();
 }
 
 // ==========================================
-// 3. ОБРАБОТЧИКИ СОБЫТИЙ
+// 3. ОБРАБОТЧИКИ СОБЫТИЙ (Квесты Системы)
 // ==========================================
 
 // Расчет личной нормы
@@ -145,7 +187,7 @@ if (addCustomBtn) {
     });
 }
 
-// Добавление еды
+// Добавление еды и расчет под введенный вес
 const addFoodBtn = document.getElementById('add-food-btn');
 if (addFoodBtn) {
     addFoodBtn.addEventListener('click', () => {
@@ -160,21 +202,41 @@ if (addFoodBtn) {
             const fPer100 = parseFloat(selectedOption.getAttribute('data-f')) || 0;
             const cPer100 = parseFloat(selectedOption.getAttribute('data-c')) || 0;
 
-            totalCalories += Math.round((calPer100 / 100) * weight);
-            totalP += (pPer100 / 100) * weight;
-            totalF += (fPer100 / 100) * weight;
-            totalC += (cPer100 / 100) * weight;
+            // Считаем точные значения под введенные граммы
+            const calculatedCal = Math.round((calPer100 / 100) * weight);
+            const calculatedP = (pPer100 / 100) * weight;
+            const calculatedF = (fPer100 / 100) * weight;
+            const calculatedC = (cPer100 / 100) * weight;
 
+            // Накапливаем общую сумму
+            totalCalories += calculatedCal;
+            totalP += calculatedP;
+            totalF += calculatedF;
+            totalC += calculatedC;
+
+            // Добавляем этот конкретный продукт в наш список за сегодня
+            todayFoods.push({
+                name: selectedOption.text.split(' (')[0], // Берем чистое название продукта
+                weight: weight,
+                cal: calculatedCal
+            });
+
+            // Сохраняем всё в LocalStorage
             localStorage.setItem('calories', totalCalories);
-            localStorage.setItem('p', totalP); localStorage.setItem('f', totalF); localStorage.setItem('c', totalC);
+            localStorage.setItem('p', totalP); 
+            localStorage.setItem('f', totalF); 
+            localStorage.setItem('c', totalC);
+            localStorage.setItem('todayFoods', JSON.stringify(todayFoods));
 
             updateUI();
             weightInput.value = '';
+        } else {
+            alert('Выберите продукт и укажите его вес в граммах!');
         }
     });
 }
 
-// Управление водой
+// Вода
 if(document.getElementById('add-water-btn')) {
     document.getElementById('add-water-btn').addEventListener('click', () => {
         totalWater += 250;
@@ -190,28 +252,35 @@ if(document.getElementById('reset-water-btn')) {
     });
 }
 
-// Кнопка нового дня
+// Кнопка завершения дня (Архивация)
 const resetDayBtn = document.getElementById('reset-day-btn');
 if (resetDayBtn) {
     resetDayBtn.addEventListener('click', () => {
-        if(confirm("Завершить текущий день и сохранить его в историю?")) {
+        if(confirm("Завершить текущий день и заархивировать данные в историю?")) {
             const today = new Date();
             const dateString = today.toLocaleDateString('ru-RU');
 
+            // Записываем день, включая массив съеденных продуктов
             const currentDayRecord = {
                 date: dateString,
                 calories: totalCalories,
                 target: targetCalories,
-                water: totalWater
+                water: totalWater,
+                foods: todayFoods
             };
 
             historyData.push(currentDayRecord);
             localStorage.setItem('fitHistory', JSON.stringify(historyData));
 
+            // ПОЛНЫЙ СБРОС ТЕКУЩЕГО ДНЯ
             totalCalories = 0; totalP = 0; totalF = 0; totalC = 0; totalWater = 0;
+            todayFoods = [];
+            
             localStorage.setItem('calories', 0);
             localStorage.setItem('p', 0); localStorage.setItem('f', 0); localStorage.setItem('c', 0);
             localStorage.setItem('water', 0);
+            localStorage.setItem('todayFoods', JSON.stringify([]));
+            
             if(document.getElementById('water-count')) document.getElementById('water-count').innerText = 0;
 
             updateUI();
@@ -219,7 +288,7 @@ if (resetDayBtn) {
     });
 }
 
-// Очистить историю
+// Полная очистка архива
 const clearHistoryBtn = document.getElementById('clear-history-btn');
 if (clearHistoryBtn) {
     clearHistoryBtn.addEventListener('click', () => {
@@ -231,5 +300,5 @@ if (clearHistoryBtn) {
     });
 }
 
-// Запуск
+// Запуск при старте
 updateUI();
